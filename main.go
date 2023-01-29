@@ -1,9 +1,18 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	router := gin.Default()
 
-	router.GET("/", ) // <- Router Path
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"name": "Mirza Hilmi",
+			"Bio": "A Software Developer, Backend Developing and Robotics Enthusiast",
+		})
+	})  // <- Router Path
 }
