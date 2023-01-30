@@ -11,7 +11,7 @@ func main() {
 
 	router.GET("/", rootHandler)
 	router.GET("/:id", idHandler)
-	router.GET("/query", proxyHandler) // http://localhost:8080/book?title=Halo
+	router.GET("/query", queryHandler) // http://localhost:8080/query?title=Halo
 	router.Run()
 }
 
@@ -29,7 +29,7 @@ func idHandler(c *gin.Context) {
 	})
 }
 
-func proxyHandler(c *gin.Context) {
+func queryHandler(c *gin.Context) {
 	title := c.Query("title")
 	price := c.Query("price")
 
