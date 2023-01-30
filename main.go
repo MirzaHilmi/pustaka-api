@@ -1,10 +1,11 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	"pustaka-api/models"
 )
@@ -47,7 +48,11 @@ func postBookHandler(c *gin.Context) {
 	var book models.Book
 
 	if err := c.ShouldBindJSON(&book); err != nil {
-		log.Fatal("Error occured, please try again")
+		for _, e := range err.(validator.ValidationErrors) {
+			errorMessage := fmt.Sprintf("Error on field %s, condition %s", e.Field(), e.ActualTag())
+			c.JSON(http.StatusBadRequest, errorMessage)
+			return
+		}
 	}
 
 	c.JSON(http.StatusOK, book)
