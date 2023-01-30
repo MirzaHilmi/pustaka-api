@@ -11,7 +11,7 @@ func main() {
 
 	router.GET("/", rootHandler)
 	router.GET("/:id", idHandler)
-	router.GET("/query", proxyHandler) // http://localhost:8080/query?title=Halo
+	router.GET("/query", proxyHandler) // http://localhost:8080/book?title=Halo
 	router.Run()
 }
 
@@ -31,5 +31,10 @@ func idHandler(c *gin.Context) {
 
 func proxyHandler(c *gin.Context) {
 	title := c.Query("title")
-	c.JSON(http.StatusOK, gin.H{"title": title})
+	price := c.Query("price")
+
+	c.JSON(http.StatusOK, gin.H{
+		"title": title,
+		"price": price,
+	})
 }
