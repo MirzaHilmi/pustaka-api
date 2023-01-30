@@ -1,9 +1,12 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+
+	"pustaka-api/models"
 )
 
 func main() {
@@ -11,7 +14,8 @@ func main() {
 
 	router.GET("/", rootHandler)
 	router.GET("/:id", idHandler)
-	router.GET("/query", queryHandler) // http://localhost:8080/query?title=Halo
+	router.GET("/book/query", queryHandler) // http://localhost:8080/query?title=Halo
+	router.POST("/book/post", postBookHandler)
 	router.Run()
 }
 
@@ -37,4 +41,14 @@ func queryHandler(c *gin.Context) {
 		"title": title,
 		"price": price,
 	})
+}
+
+func postBookHandler(c *gin.Context) {
+	var book models.Book
+
+	if err := c.ShouldBindJSON(&book); err != nil {
+		log.Fatal("Error occured, please try again")
+	}
+
+	c.JSON(http.StatusOK, book)
 }
