@@ -8,10 +8,12 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.GET("/", util.RootHandler)
-	router.GET("/:id", util.IdHandler)
-	router.GET("/book/query", util.QueryHandler) // http://localhost:8080/query?title=Halo
-	router.POST("/book/post", util.PostBookHandler)
+	v1 := router.Group("v1")
+
+	v1.GET("/", util.RootHandler)
+	v1.GET("/:id", util.IdHandler)
+	v1.GET("/book/query", util.QueryHandler) // http://localhost:8080/query?title=Halo
+	v1.POST("/book/post", util.PostBookHandler)
 
 	router.Run()
 }
