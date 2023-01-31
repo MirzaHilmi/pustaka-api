@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"pustaka-api/models"
 	"pustaka-api/util"
+	"pustaka-api/layers"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
@@ -18,36 +18,23 @@ func main() {
 
 	if err != nil {
 		log.Fatal("DB connection error")
+	} else {
+		fmt.Println("DB connection successfull")
 	}
-	fmt.Println("DB connection successfull")
 
-	book := models.Book{}
-	// book.ID = 3
-	// book.Title = "Gamata"
-	// book.Description = "Gam"
-	// book.Price = 358900
-	// book.Rating = 5
+	bookRepo := layers.NewRepo(db)
 
-	// err = db.Debug().Create(&book).Error
-	// if err != nil {
-	// 	fmt.Println("Error creating book record")
-	// }
-	// fmt.Println("Book have been successfuly recorded")
-
-	err = db.Where("id = ?", 3).First(&book).Error
+	books, err := bookRepo.FindAll()
 
 	if err != nil {
-		fmt.Println("Error creating book record")
+		log.Fatal("Error Occured")
+	} else {
+		fmt.Println("Successfull")
 	}
 
-	book.Description = "Wind, cold yet so calming"
-	err = db.Save(&book).Error
-
-	if err != nil {
-		fmt.Println("Error editing book record")
-	}
-
-	fmt.Println("Book have been successfuly edited")
+	for _, book := range books {
+		fmt.Printf("ID: %v\nTitle: %v\v", book.ID, book.Title)
+	} 
 
 	router := gin.Default()
 

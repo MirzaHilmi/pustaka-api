@@ -1,15 +1,19 @@
 package models
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
-type BookTest struct {
-	Title string      `json:"title" binding:"required"`
-	Years interface{} `json:"years" binding:"required,number"`
-	Price interface{} `json:"price" binding:"required,number"`
+type BookRequest struct {
+	Title       string      `json:"title" binding:"required"`
+	Description string      `json:"description" binding:"required"`
+	Price       json.Number `json:"price" binding:"required,number"`
+	Rating      json.Number `json:"rating" binding:"required,number"`
 }
 
 type Book struct {
-	ID          int 		`gorm:"primaryKey"`
+	ID          int
 	Title       string
 	Description string
 	Price       int
