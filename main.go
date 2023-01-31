@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"pustaka-api/util"
 	"pustaka-api/layers"
+	"pustaka-api/util"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
@@ -23,27 +23,19 @@ func main() {
 	}
 
 	bookRepo := layers.NewRepo(db)
-
-	books, err := bookRepo.FindAll()
-
-	if err != nil {
-		log.Fatal("Error Occured")
-	} else {
-		fmt.Println("Successfull")
-	}
-
-	for _, book := range books {
-		fmt.Printf("ID: %v\nTitle: %v\v", book.ID, book.Title)
-	} 
+	bookService := layers.NewService(bookRepo)
+	bookHandler := util.NewBookHandler(bookService)
 
 	router := gin.Default()
 
 	v1 := router.Group("v1")
 
-	v1.GET("/", util.RootHandler)
-	v1.GET("/:id", util.IdHandler)
-	v1.GET("/book/query", util.QueryHandler) // http://localhost:8080/query?title=Halo
-	v1.POST("/book/post", util.PostBookHandler)
+	v1.GET("/", bookHandler.RootHandler)
+	v1.GET("/:id", bookHandler.IdHandler)
+	v1.GET("/book/query", bookHandler.QueryHandler) // http://localhost:8080/query?title=Halo
+	v1.POST("/book/post", bookHandler.PostBookHandler)
+	v1.GET("/books", bookHandler.GetBooks)
+	v1.GET("/books/:id", bookHandler.GetBook)
 
 	router.Run()
 }

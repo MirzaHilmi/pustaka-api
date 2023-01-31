@@ -5,13 +5,6 @@ import (
 	"time"
 )
 
-type BookRequest struct {
-	Title       string      `json:"title" binding:"required"`
-	Description string      `json:"description" binding:"required"`
-	Price       json.Number `json:"price" binding:"required,number"`
-	Rating      json.Number `json:"rating" binding:"required,number"`
-}
-
 type Book struct {
 	ID          int
 	Title       string
@@ -20,4 +13,19 @@ type Book struct {
 	Rating      int
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+}
+
+type BookRequest struct {
+	Title       string      `json:"title" binding:"required"`
+	Description string      `json:"description" binding:"required"`
+	Price       json.Number `json:"price" binding:"required,number"`
+	Rating      json.Number `json:"rating" binding:"required,number"`
+}
+
+type BookResponse struct {
+	ID          int    `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Price       int    `json:"price"`
+	Rating      int    `json:"rating"`
 }
