@@ -16,10 +16,19 @@ type Book struct {
 }
 
 type BookRequest struct {
+	ID          json.Number `json:"id" binding:"required"`
 	Title       string      `json:"title" binding:"required"`
 	Description string      `json:"description" binding:"required"`
 	Price       json.Number `json:"price" binding:"required,number"`
 	Rating      json.Number `json:"rating" binding:"required,number"`
+}
+
+type BookUpdateRequest struct {
+	ID          json.Number `json:"id"`
+	Title       string      `json:"title"`
+	Description string      `json:"description"`
+	Price       json.Number `json:"price"`
+	Rating      json.Number `json:"rating"`
 }
 
 type BookResponse struct {

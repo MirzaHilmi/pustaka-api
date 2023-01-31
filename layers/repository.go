@@ -1,14 +1,17 @@
 package layers
 
 import (
-	"gorm.io/gorm"
 	"pustaka-api/models"
+
+	"gorm.io/gorm"
 )
 
 type Repository interface {
 	FindAll() ([]models.Book, error)
 	FindByID(ID int) (models.Book, error)
 	Create(book models.Book) (models.Book, error)
+	Update(book models.Book) (models.Book, error)
+	Delete(book models.Book) (models.Book, error)
 }
 
 type repo struct {
@@ -33,5 +36,15 @@ func (r *repo) FindByID(ID int) (models.Book, error) {
 
 func (r *repo) Create(book models.Book) (models.Book, error) {
 	err := r.db.Create(&book).Error
+	return book, err
+}
+
+func (r *repo) Update(book models.Book) (models.Book, error) {
+	err := r.db.Save(&book).Error
+	return book, err
+}
+
+func (r *repo) Delete(book models.Book) (models.Book, error) {
+	err := r.db.Delete(&book).Error
 	return book, err
 }

@@ -36,6 +36,14 @@ func main() {
 	v1.POST("/book/post", bookHandler.PostBookHandler)
 	v1.GET("/books", bookHandler.GetBooks)
 	v1.GET("/books/:id", bookHandler.GetBook)
+	v1.PUT("/books/edit/:id", bookHandler.UpdateBook)
+	v1.DELETE("/books/delete/:id", bookHandler.DeleteBook)
 
 	router.Run()
 }
+
+//main
+//handler
+//service
+//repository
+//database
