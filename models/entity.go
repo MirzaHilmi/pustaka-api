@@ -9,7 +9,7 @@ type BookTest struct {
 }
 
 type Book struct {
-	ID          int
+	ID          int 		`gorm:"primaryKey"`
 	Title       string
 	Description string
 	Price       int
